@@ -34,6 +34,17 @@ class ViewController: UIViewController ,UITableViewDataSource,UITableViewDelegat
         return cell!
     }
     
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete{
+            self.titleArray.remove(at: indexPath.row)
+            self.dateStringArray.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+            UserDefaults.standard.set(titleArray, forKey: "title")
+            UserDefaults.standard.set(dateStringArray, forKey: "date")
+        }
+    }
+    
     @IBAction func myUnwindAction(for unwindSegue: UIStoryboardSegue, towardsViewController subsequentVC: UIViewController){
         if(unwindSegue.identifier=="back"){
             titleArray = UserDefaults.standard.array(forKey:"title")as! [String]
